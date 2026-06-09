@@ -3,422 +3,361 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Some or Any — Grammar Quiz</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+<title>Some or Any Quiz</title>
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+padding:20px;
+}
 
-  body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #F5F4F0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 2rem 1rem 4rem;
-    color: #1a1a1a;
-  }
+.container{
+max-width:900px;
+margin:auto;
+}
 
-  .dq { width: 100%; max-width: 720px; }
+h1{
+text-align:center;
+color:#0a66c2;
+margin-bottom:10px;
+}
 
-  /* ── Hero / Rules card ── */
-  .hero {
-    background: #fff;
-    border: 0.5px solid rgba(0,0,0,0.1);
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-  .hero-top {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 1.25rem; padding-bottom: 1.25rem;
-    border-bottom: 0.5px solid rgba(0,0,0,0.08);
-  }
-  .hero-ico {
-    width: 44px; height: 44px; border-radius: 10px;
-    background: #EEEDFE;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .hero-ico i { font-size: 22px; color: #534AB7; }
-  .hero-title { font-size: 16px; font-weight: 500; }
-  .hero-sub   { font-size: 12px; color: #888; margin-top: 2px; }
-  .pills-row  { margin-left: auto; display: flex; gap: 8px; }
-  .hpill {
-    background: #f5f4f0; border: 0.5px solid rgba(0,0,0,0.1);
-    border-radius: 99px; padding: 4px 12px;
-    font-size: 12px; color: #666;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .hpill.cor { background: #EAF3DE; border-color: #97C459; color: #3B6D11; }
-  .hpill.wrg { background: #FCEBEB; border-color: #F09595; color: #A32D2D; }
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:30px;
+}
 
-  .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .rule-cell { border-radius: 10px; padding: 12px 14px; }
-  .rule-some { background: #EEEDFE; border: 0.5px solid #AFA9EC; }
-  .rule-any  { background: #EAF3DE; border: 0.5px solid #C0DD97; }
-  .rule-tag {
-    display: inline-flex; align-items: center; gap: 5px;
-    border-radius: 99px; padding: 3px 10px;
-    font-size: 12px; font-weight: 500; margin-bottom: 6px;
-  }
-  .tag-some { background: #534AB7; color: #EEEDFE; }
-  .tag-any  { background: #3B6D11; color: #EAF3DE; }
-  .rule-desc { font-size: 12px; color: #555; line-height: 1.6; }
-  .rule-ex   { display: block; font-style: italic; color: #888; margin-top: 4px; font-size: 11px; }
+.quiz-card{
+background:white;
+padding:20px;
+margin-bottom:15px;
+border-radius:15px;
+box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
 
-  /* ── Section label ── */
-  .part-label {
-    font-size: 13px; font-weight: 500; color: #888;
-    text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1rem;
-  }
+.question{
+font-size:18px;
+font-weight:bold;
+margin-bottom:15px;
+}
 
- 
-  /* ── Sentences ── */
-  .sentences-card {
-    background: #fff; border: 0.5px solid rgba(0,0,0,0.1);
-    border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;
-  }
-  .q-row {
-    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
-    padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06);
-    font-size: 15px; line-height: 1.7;
-  }
-  .q-row:last-child { border-bottom: none; }
-  .q-num {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: #f0efe8; display: flex; align-items: center;
-    justify-content: center; font-size: 11px; font-weight: 500;
-    color: #888; flex-shrink: 0;
-  }
-  .q-num.ok  { background: #EAF3DE; color: #3B6D11; }
-  .q-num.bad { background: #FCEBEB; color: #A32D2D; }
-
-  .drop-zone {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-width: 80px; height: 32px;
-    border: 2px dashed #bbb; border-radius: 8px;
-    padding: 0 10px; font-size: 13px; color: #aaa;
-    cursor: pointer; transition: border-color .15s, background .15s;
-    vertical-align: middle;
-  }
-  .drop-zone.drag-over  { border-color: #534AB7; background: #EEEDFE; }
-  .drop-zone.filled     { border-style: solid; font-weight: 500; cursor: pointer; }
-  .drop-zone.filled-some{ border-color: #534AB7; background: #EEEDFE; color: #3C3489; }
-  .drop-zone.filled-any { border-color: #3B6D11; background: #EAF3DE; color: #27500A; }
-  .drop-zone.correct    { border-color: #3B6D11; background: #EAF3DE; color: #27500A; cursor: default; }
-  .drop-zone.wrong      { border-color: #A32D2D; background: #FCEBEB; color: #A32D2D; cursor: default; }
-
-  .fb-inline {
-    font-size: 11px; margin-top: 2px; padding: 5px 10px;
-    border-radius: 6px; border: 0.5px solid; width: 100%;
-    display: block; line-height: 1.5;
-  }
-  .fb-ok  { background: #EAF3DE; color: #3B6D11; border-color: #C0DD97; }
-  .fb-bad { background: #FCEBEB; color: #A32D2D; border-color: #F7C1C1; }
-
-  /* ── Actions ── */
-  .action-row { display: flex; gap: 10px; margin-bottom: 1.5rem; }
-  .btn-check {
-    flex: 1; padding: 11px;
-    background: #534AB7; color: #fff;
-    border: none; border-radius: 10px;
-    font-size: 14px; font-weight: 500; cursor: pointer;
-    font-family: inherit;
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    transition: background .15s;
-  }
-  .btn-check:hover    { background: #3C3489; }
-  .btn-check:disabled { opacity: .4; cursor: default; }
-  .btn-reset {
-    padding: 11px 20px;
-    background: transparent; border: 0.5px solid #ccc;
-    border-radius: 10px; font-size: 14px; color: #666;
-    cursor: pointer; font-family: inherit;
-    display: flex; align-items: center; gap: 6px;
-    transition: background .15s;
-  }
-  .btn-reset:hover { background: #f0efe8; }
-
-  /* ── Result ── */
-  .res-card {
-    background: #fff; border: 0.5px solid rgba(0,0,0,0.1);
-    border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 1.25rem;
-  }
-  .res-big   { font-size: 56px; font-weight: 500; color: #534AB7; line-height: 1; }
-  .res-den   { font-size: 24px; color: #888; font-weight: 400; }
-  .res-pct   {
-    display: inline-block; background: #EEEDFE; color: #3C3489;
-    border-radius: 99px; padding: 4px 14px;
-    font-size: 13px; font-weight: 500; margin: 8px 0 1rem;
-  }
-  .res-grade { font-size: 18px; font-weight: 500; }
-  .res-sub   { font-size: 13px; color: #888; margin-top: 4px; }
-  .stat-row  { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
-  .sc        { background: #f5f4f0; border-radius: 10px; padding: 12px; text-align: center; }
-  .sc-n      { font-size: 22px; font-weight: 500; }
-  .sc-l      { font-size: 11px; color: #888; margin-top: 2px; }
-  .sc.c .sc-n{ color: #3B6D11; } .sc.w .sc-n{ color: #A32D2D; } .sc.s .sc-n{ color: #534AB7; }
-  .btn-re {
-    padding: 11px 28px; background: #534AB7; color: #fff;
-    border: none; border-radius: 10px;
-    font-size: 14px; font-weight: 500; cursor: pointer;
-    font-family: inherit; display: inline-flex; align-items: center; gap: 7px;
-    transition: background .15s;
-  }
-  .btn-re:hover { background: #3C3489; }
- .option-radio{
-display:inline-flex;
-align-items:center;
-gap:6px;
-padding:6px 12px;
+.option{
+display:block;
+padding:10px;
+margin-bottom:8px;
 border:1px solid #ddd;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
-margin:0 4px;
-background:#fff;
 }
 
-.option-radio:hover{
-background:#f5f5f5;
+.option:hover{
+background:#eef5ff;
 }
 
-.option-radio input{
+.answer{
+display:none;
+margin-top:10px;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+}
+
+.wrong{
+color:red;
+}
+
+button{
+display:block;
+margin:30px auto;
+padding:15px 35px;
+border:none;
+border-radius:10px;
+background:#0a66c2;
+color:white;
+font-size:18px;
 cursor:pointer;
+}
+
+button:hover{
+background:#084d93;
+}
+
+.result{
+display:none;
+background:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,.08);
+margin-top:20px;
+}
+
+.score{
+font-size:50px;
+font-weight:bold;
+color:#0a66c2;
 }
 </style>
 </head>
 <body>
 
-<div class="dq">
+<div class="container">
 
-  <!-- Hero / Rules -->
-  <div class="hero">
-    <div class="hero-top">
-      <div class="hero-ico"><i class="ti ti-grammar"></i></div>
-      <div>
-        <div class="hero-title">Some or Any</div>
-        <div class="hero-sub">Grammar exercise · 20 sentences</div>
-      </div>
-      <div class="pills-row">
-        <div class="hpill cor"><i class="ti ti-check"></i><span id="cor-n">0</span></div>
-        <div class="hpill wrg"><i class="ti ti-x"></i><span id="wrg-n">0</span></div>
-        <div class="hpill"><span id="tot-n">0</span>/20</div>
-      </div>
-    </div>
-    <div class="rule-grid">
-      <div class="rule-cell rule-some">
-        <div class="rule-tag tag-some"><i class="ti ti-circle-check"></i>some</div>
-        <div class="rule-desc">Use in positive sentences, and in offers or requests.
-          <span class="rule-ex">"I have some milk." / "Do you want some tea?"</span>
-        </div>
-      </div>
-      <div class="rule-cell rule-any">
-        <div class="rule-tag tag-any"><i class="ti ti-circle-check"></i>any</div>
-        <div class="rule-desc">Use in negative sentences and in general questions.
-          <span class="rule-ex">"I don't have any milk." / "Do you have any coffee?"</span>
-        </div>
-      </div>
-    </div>
-  </div>
+<h1>Some or Any Quiz</h1>
+<p class="subtitle">Choose the correct answer.</p>
 
-  <div id="main-area"></div>
+<form id="quizForm"></form>
+
+<button onclick="checkAnswers()" type="button">
+Submit Answers
+</button>
+
+<div class="result" id="resultBox">
+<h2>Your Score</h2>
+<div class="score" id="score"></div>
+<p id="message"></p>
+</div>
+
 </div>
 
 <script>
-const QS = [
-  {pre:"Can I have",         post:"bread?",                        ans:"some", tip:"Polite request → some"},
-  {pre:"Are there",          post:"bananas in the fridge?",        ans:"any",  tip:"General question → any"},
-  {pre:"Do you have",        post:"money on you?",                 ans:"any",  tip:"General question → any"},
-  {pre:"I would love",       post:"cookies right now.",            ans:"some", tip:"Positive statement → some"},
-  {pre:"She doesn't have",   post:"friends here.",                 ans:"any",  tip:"Negative sentence → any"},
-  {pre:"Would you like",     post:"juice?",                        ans:"some", tip:"Offer → some"},
-  {pre:"There isn't",        post:"sugar in the kitchen.",         ans:"any",  tip:"Negative with 'isn't' → any"},
-  {pre:"He bought",          post:"new books yesterday.",          ans:"some", tip:"Positive sentence → some"},
-  {pre:"Is there",           post:"water left in the bottle?",     ans:"any",  tip:"General question → any"},
-  {pre:"Could I borrow",     post:"pens from you?",                ans:"some", tip:"Polite request → some"},
-  {pre:"They didn't bring",  post:"food to the party.",            ans:"any",  tip:"Negative sentence → any"},
-  {pre:"I need",             post:"help with this task.",          ans:"some", tip:"Positive statement → some"},
-  {pre:"Have you seen",      post:"good films lately?",            ans:"any",  tip:"General question → any"},
-  {pre:"There are",          post:"apples on the table.",          ans:"some", tip:"Positive sentence → some"},
-  {pre:"We didn't get",      post:"information about it.",         ans:"any",  tip:"Negative sentence → any"},
-  {pre:"Do you want",        post:"more cake?",                    ans:"some", tip:"Offer → some"},
-  {pre:"I haven't read",     post:"of these books.",               ans:"any",  tip:"Negative with 'haven't' → any"},
-  {pre:"She made",           post:"soup for dinner.",              ans:"some", tip:"Positive sentence → some"},
-  {pre:"Is there",           post:"any chance of rain today?",     ans:"any",  tip:"General question → any"},
-  {pre:"Can you give me",    post:"advice?",                       ans:"some", tip:"Polite request → some"},
+
+const questions = [
+
+{
+question:"Can I have ____ water, please?",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"Do you have ____ brothers?",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"There are ____ apples on the table.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"I don't have ____ money.",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"Would you like ____ coffee?",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"Is there ____ milk in the fridge?",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"She bought ____ new clothes.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"We didn't see ____ animals.",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"Could I borrow ____ pens?",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"Are there ____ questions?",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"I need ____ help.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"They don't have ____ children.",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"There is ____ cheese in the kitchen.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"Have you got ____ homework today?",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"She wants ____ information.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"We haven't received ____ emails.",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"Can you give me ____ advice?",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"Did you buy ____ bread?",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"I have ____ good friends.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"There isn't ____ sugar left.",
+options:["some","any"],
+answer:"any"
+}
+
 ];
 
-let userAns  = new Array(20).fill(null);
-let submitted = false;
-let dragging  = null;
+const form = document.getElementById("quizForm");
 
-function updateCounters() {
-  const cor = userAns.filter((a,i) => a && a === QS[i].ans).length;
-  const wrg = userAns.filter((a,i) => a && a !== QS[i].ans).length;
-  const tot = userAns.filter(a => a).length;
-  document.getElementById('cor-n').textContent = cor;
-  document.getElementById('wrg-n').textContent = wrg;
-  document.getElementById('tot-n').textContent = tot;
-}
+questions.forEach((q,index)=>{
 
-function render() {
-  updateCounters();
-  const totDone = userAns.filter(a => a).length;
+let optionsHTML = "";
 
-  let html = `
-    <div class="bank-card">
-      <div class="bank-title"><i class="ti ti-hand-grab"></i>Word bank — click or drag onto a blank</div>
-      <div class="word-bank">
-        <span class="word-chip some-chip ${submitted ? 'used' : ''}" draggable="true"
-          ondragstart="startDrag('some',event)" onclick="clickWord('some')">some</span>
-        <span class="word-chip any-chip  ${submitted ? 'used' : ''}" draggable="true"
-          ondragstart="startDrag('any',event)"  onclick="clickWord('any')">any</span>
-      </div>
-    </div>
+q.options.forEach(option=>{
 
-    <div class="sentences-card">`;
+optionsHTML += `
+<label class="option">
+<input type="radio" name="q${index}" value="${option}">
+${option}
+</label>
+`;
 
-  QS.forEach((q, i) => {
-    const ua   = userAns[i];
-    const isAns = ua !== null;
-    const isOk  = submitted && isAns && ua === q.ans;
-    const isBad = submitted && isAns && ua !== q.ans;
-    const numCls = 'q-num' + (isOk ? ' ok' : isBad ? ' bad' : '');
+});
 
-    let dropCls = 'drop-zone';
-    if (isOk)       dropCls += ' correct';
-    else if (isBad) dropCls += ' wrong';
-    else if (isAns) dropCls += ` filled filled-${ua}`;
+form.innerHTML += `
 
-    const dropClick = submitted || !isAns ? '' : ` onclick="clearDrop(${i})"`;
-    const dropTitle = submitted ? '' : (isAns ? 'click to remove' : 'drop here or click a word');
+<div class="quiz-card">
 
-    let fbHTML = '';
-    if (submitted) {
-      fbHTML = `<span class="fb-inline ${isOk ? 'fb-ok' : 'fb-bad'}">
-        <i class="ti ${isOk ? 'ti-circle-check' : 'ti-circle-x'}"></i>
-        ${isOk ? 'Correct!' : 'Wrong — correct answer: <strong>' + q.ans + '</strong>'} · ${q.tip}
-      </span>`;
-    }
+<div class="question">
+${index+1}. ${q.question}
+</div>
 
-    html += `
-<div class="q-row">
+${optionsHTML}
 
-  <span class="${numCls}">
-    ${i + 1}
-  </span>
-
-  <span>
-    ${q.pre}
-  </span>
-
-  <label class="option-radio">
-    <input
-      type="radio"
-      name="q${i}"
-      value="some"
-      ${ua==="some"?"checked":""}
-      onchange="selectAnswer(${i},'some')"
-      ${submitted?"disabled":""}
-    >
-    some
-  </label>
-
-  <label class="option-radio">
-    <input
-      type="radio"
-      name="q${i}"
-      value="any"
-      ${ua==="any"?"checked":""}
-      onchange="selectAnswer(${i},'any')"
-      ${submitted?"disabled":""}
-    >
-    any
-  </label>
-
-  <span>${q.post}</span>
-
-  ${fbHTML}
+<div class="answer" id="answer${index}">
+</div>
 
 </div>
+
 `;
-  });
 
-  html += `</div>
-    <div class="action-row">
-      <button class="btn-check" onclick="checkAll()" ${submitted || totDone < 20 ? 'disabled' : ''}>
-        <i class="ti ti-check-all"></i>
-        ${submitted ? 'Submitted — see results below' : 'Check all answers'}
-      </button>
-      <button class="btn-reset" onclick="resetAll()">
-        <i class="ti ti-refresh"></i> Reset
-      </button>
-    </div>`;
+});
 
-  if (submitted) html += buildResult();
-  document.getElementById('main-area').innerHTML = html;
-}
+function checkAnswers(){
 
-function selectAnswer(index,value){
-  if(submitted) return;
+let score = 0;
 
-  userAns[index]=value;
-  render();
-}
-  dragging = null;
-  document.getElementById('dz-' + i)?.classList.remove('drag-over');
-}
-function clearDrop(i) {
-  if (submitted) return;
-  userAns[i] = null;
-  render();
-}
-function clickWord(w) {
-  if (submitted) return;
-  const first = userAns.findIndex(a => a === null);
-  if (first >= 0) { userAns[first] = w; render(); }
-}
-function checkAll() {
-  if (submitted) return;
-  submitted = true;
-  render();
-  setTimeout(() => document.querySelector('.res-card')?.scrollIntoView({ behavior: 'smooth' }), 100);
-}
-function resetAll() {
-  userAns = new Array(20).fill(null);
-  submitted = false;
-  render();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+questions.forEach((q,index)=>{
+
+const selected =
+document.querySelector(`input[name="q${index}"]:checked`);
+
+const answerBox =
+document.getElementById(`answer${index}`);
+
+if(selected && selected.value === q.answer){
+
+score++;
+
+answerBox.innerHTML =
+`✓ Correct`;
+
+answerBox.className =
+"answer correct";
+
+}else{
+
+answerBox.innerHTML =
+`✗ Correct answer: ${q.answer}`;
+
+answerBox.className =
+"answer wrong";
+
 }
 
-function buildResult() {
-  const sc  = userAns.filter((a, i) => a === QS[i].ans).length;
-  const pct = Math.round((sc / 20) * 100);
-  const wr  = 20 - sc;
-  let grade, gsub;
-  if (pct >= 90)      { grade = 'Excellent!';           gsub = 'You have a strong command of some and any.'; }
-  else if (pct >= 75) { grade = 'Good job!';            gsub = 'Solid understanding — review the rules you missed.'; }
-  else if (pct >= 60) { grade = 'Keep practising!';     gsub = 'Almost there — re-read the rules above and try again.'; }
-  else                { grade = 'Needs more practice';  gsub = 'Review the some/any rules carefully, then try again.'; }
+answerBox.style.display = "block";
 
-  return `<div class="res-card">
-    <div class="res-big">${sc}<span class="res-den">/20</span></div>
-    <div class="res-pct">${pct}%</div>
-    <div class="res-grade">${grade}</div>
-    <div class="res-sub">${gsub}</div>
-  </div>
-  <div class="stat-row">
-    <div class="sc c"><div class="sc-n">${sc}</div><div class="sc-l">Correct</div></div>
-    <div class="sc w"><div class="sc-n">${wr}</div><div class="sc-l">Wrong</div></div>
-    <div class="sc s"><div class="sc-n">${pct}%</div><div class="sc-l">Score</div></div>
-  </div>
-  <div style="text-align:center; margin-bottom:2rem">
-    <button class="btn-re" onclick="resetAll()">
-      <i class="ti ti-refresh"></i> Try again
-    </button>
-  </div>`;
+});
+
+const percent =
+Math.round(score/questions.length*100);
+
+document.getElementById("score").innerHTML =
+`${score} / ${questions.length}`;
+
+let message = "";
+
+if(percent >= 90){
+message = "🏆 Excellent!";
+}
+else if(percent >= 70){
+message = "🎓 Good Job!";
+}
+else if(percent >= 50){
+message = "📘 Keep Practicing!";
+}
+else{
+message = "📚 Study Some & Any Again!";
 }
 
-render();
+document.getElementById("message").innerHTML =
+`${percent}% - ${message}`;
+
+document.getElementById("resultBox").style.display =
+"block";
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
 </script>
+
 </body>
 </html>
