@@ -71,29 +71,7 @@
     text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1rem;
   }
 
-  /* ── Word bank ── */
-  .bank-card {
-    background: #fff; border: 0.5px solid rgba(0,0,0,0.1);
-    border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;
-  }
-  .bank-title {
-    font-size: 13px; color: #888; margin-bottom: .75rem;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .bank-title i { font-size: 15px; }
-  .word-bank { display: flex; gap: 8px; flex-wrap: wrap; }
-  .word-chip {
-    display: inline-flex; align-items: center;
-    padding: 7px 20px; border-radius: 10px;
-    font-size: 14px; font-weight: 500;
-    cursor: grab; transition: opacity .15s;
-    user-select: none; border: 1.5px solid transparent;
-  }
-  .some-chip { background: #534AB7; color: #EEEDFE; border-color: #534AB7; }
-  .any-chip  { background: #3B6D11; color: #EAF3DE; border-color: #3B6D11; }
-  .word-chip.used { opacity: .3; cursor: default; pointer-events: none; }
-  .word-chip:active { opacity: .6; }
-
+ 
   /* ── Sentences ── */
   .sentences-card {
     background: #fff; border: 0.5px solid rgba(0,0,0,0.1);
@@ -187,6 +165,25 @@
     transition: background .15s;
   }
   .btn-re:hover { background: #3C3489; }
+ .option-radio{
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:6px 12px;
+border:1px solid #ddd;
+border-radius:8px;
+cursor:pointer;
+margin:0 4px;
+background:#fff;
+}
+
+.option-radio:hover{
+background:#f5f5f5;
+}
+
+.option-radio input{
+cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -303,16 +300,47 @@ function render() {
       </span>`;
     }
 
-    html += `<div class="q-row">
-      <span class="${numCls}">${i + 1}</span>
-      <span>${q.pre}</span>
-      <span class="${dropCls}" id="dz-${i}"
-        ondragover="allowDrop(event)" ondrop="dropWord(${i},event)"
-        ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')"
-        title="${dropTitle}"${dropClick}>${isAns ? ua : '?'}</span>
-      <span>${q.post}</span>
-      ${fbHTML}
-    </div>`;
+    html += `
+<div class="q-row">
+
+  <span class="${numCls}">
+    ${i + 1}
+  </span>
+
+  <span>
+    ${q.pre}
+  </span>
+
+  <label class="option-radio">
+    <input
+      type="radio"
+      name="q${i}"
+      value="some"
+      ${ua==="some"?"checked":""}
+      onchange="selectAnswer(${i},'some')"
+      ${submitted?"disabled":""}
+    >
+    some
+  </label>
+
+  <label class="option-radio">
+    <input
+      type="radio"
+      name="q${i}"
+      value="any"
+      ${ua==="any"?"checked":""}
+      onchange="selectAnswer(${i},'any')"
+      ${submitted?"disabled":""}
+    >
+    any
+  </label>
+
+  <span>${q.post}</span>
+
+  ${fbHTML}
+
+</div>
+`;
   });
 
   html += `</div>
@@ -330,18 +358,12 @@ function render() {
   document.getElementById('main-area').innerHTML = html;
 }
 
-function startDrag(word, e) {
-  dragging = word;
-  e.dataTransfer.effectAllowed = 'copy';
+function selectAnswer(index,value){
+  if(submitted) return;
+
+  userAns[index]=value;
+  render();
 }
-function allowDrop(e) { e.preventDefault(); }
-function dropWord(i, e) {
-  e.preventDefault();
-  const w = dragging || e.dataTransfer.getData('text');
-  if (w && !submitted) {
-    userAns[i] = w;
-    render();
-  }
   dragging = null;
   document.getElementById('dz-' + i)?.classList.remove('drag-over');
 }
