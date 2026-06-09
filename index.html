@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Some or Any Quiz</title>
+<title>Much or Many Quiz</title>
 
 <style>
 body{
@@ -21,13 +21,20 @@ margin:auto;
 h1{
 text-align:center;
 color:#0a66c2;
-margin-bottom:10px;
 }
 
 .subtitle{
 text-align:center;
 color:#666;
-margin-bottom:30px;
+margin-bottom:25px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
 .quiz-card{
@@ -39,9 +46,9 @@ box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
 .question{
-font-size:18px;
 font-weight:bold;
-margin-bottom:15px;
+margin-bottom:12px;
+font-size:18px;
 }
 
 .option{
@@ -73,8 +80,8 @@ color:red;
 
 button{
 display:block;
-margin:30px auto;
-padding:15px 35px;
+margin:25px auto;
+padding:14px 30px;
 border:none;
 border-radius:10px;
 background:#0a66c2;
@@ -94,51 +101,34 @@ padding:25px;
 border-radius:15px;
 text-align:center;
 box-shadow:0 3px 10px rgba(0,0,0,.08);
-margin-top:20px;
 }
 
 .score{
-font-size:50px;
+font-size:45px;
 font-weight:bold;
 color:#0a66c2;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<!-- RULE CARD MULAI -->
-<div style="
-background:white;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
-box-shadow:0 3px 10px rgba(0,0,0,.08);
-">
+<h1>Much or Many Quiz</h1>
+<p class="subtitle">Choose the correct answer for each sentence.</p>
 
-<h3 style="color:#0a66c2;">📘 Some vs Any</h3>
+<div class="card">
+<h3>📘 Short Explanation</h3>
 
-<p><strong>Some</strong> → digunakan dalam kalimat positif dan untuk menawarkan atau meminta sesuatu dengan sopan.</p>
+<p><b>Some</b> is usually used in positive sentences and offers/requests.</p>
+<p>Examples: some books, some water, Would you like some tea?</p>
 
-<p style="margin-bottom:10px;">
-Examples: some water, some books, some help
-</p>
-
-<p><strong>Any</strong> → digunakan dalam kalimat negatif dan pertanyaan.</p>
-
-<p>
-Examples: any water, any books, any money
-</p>
-
-<br>
-
-<p><strong>📌 Simple Rule:</strong></p>
-<p>✔ Some = positive sentences / offers / requests</p>
-<p>✔ Any = negative sentences / questions</p>
-
+<p><b>Any</b> is usually used in negative sentences and questions.</p>
+<p>Examples: any students?, don't have any money, are there any apples?</p>
 </div>
-<!-- RULE CARD SELESAI -->
+
+<form id="quizForm"></form>
 
 <button onclick="checkAnswers()" type="button">
 Submit Answers
@@ -157,123 +147,93 @@ Submit Answers
 const questions = [
 
 {
+question:"I have ____ friends in Surabaya.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"Do you have ____ questions?",
+options:["some","any"],
+answer:"any"
+},
+
+{
+question:"There is ____ milk in the fridge.",
+options:["some","any"],
+answer:"some"
+},
+
+{
+question:"We don't have ____ homework today.",
+options:["some","any"],
+answer:"any"
+},
+
+{
 question:"Can I have ____ water, please?",
 options:["some","any"],
 answer:"some"
 },
 
 {
-question:"Do you have ____ brothers?",
+question:"Are there ____ students in the classroom?",
 options:["some","any"],
 answer:"any"
 },
 
 {
-question:"There are ____ apples on the table.",
+question:"I bought ____ apples at the market.",
 options:["some","any"],
 answer:"some"
 },
 
 {
-question:"I don't have ____ money.",
+question:"There aren't ____ cookies left.",
 options:["some","any"],
 answer:"any"
 },
 
 {
-question:"Would you like ____ coffee?",
+question:"Would you like ____ tea?",
 options:["some","any"],
 answer:"some"
 },
 
 {
-question:"Is there ____ milk in the fridge?",
+question:"She doesn't know ____ people here.",
 options:["some","any"],
 answer:"any"
 },
 
 {
-question:"She bought ____ new clothes.",
+question:"I need ____ help with my project.",
 options:["some","any"],
 answer:"some"
 },
 
 {
-question:"We didn't see ____ animals.",
+question:"Do we have ____ bread at home?",
 options:["some","any"],
 answer:"any"
 },
 
 {
-question:"Could I borrow ____ pens?",
+question:"There are ____ books on the table.",
 options:["some","any"],
 answer:"some"
 },
 
 {
-question:"Are there ____ questions?",
+question:"He didn't make ____ mistakes.",
 options:["some","any"],
 answer:"any"
 },
 
 {
-question:"I need ____ help.",
+question:"Could you lend me ____ money?",
 options:["some","any"],
 answer:"some"
-},
-
-{
-question:"They don't have ____ children.",
-options:["some","any"],
-answer:"any"
-},
-
-{
-question:"There is ____ cheese in the kitchen.",
-options:["some","any"],
-answer:"some"
-},
-
-{
-question:"Have you got ____ homework today?",
-options:["some","any"],
-answer:"any"
-},
-
-{
-question:"She wants ____ information.",
-options:["some","any"],
-answer:"some"
-},
-
-{
-question:"We haven't received ____ emails.",
-options:["some","any"],
-answer:"any"
-},
-
-{
-question:"Can you give me ____ advice?",
-options:["some","any"],
-answer:"some"
-},
-
-{
-question:"Did you buy ____ bread?",
-options:["some","any"],
-answer:"any"
-},
-
-{
-question:"I have ____ good friends.",
-options:["some","any"],
-answer:"some"
-},
-
-{
-question:"There isn't ____ sugar left.",
-options:["some","any"],
-answer:"any"
 }
 
 ];
@@ -296,11 +256,10 @@ ${option}
 });
 
 form.innerHTML += `
-
 <div class="quiz-card">
 
 <div class="question">
-${index+1}. ${q.question}
+${index + 1}. ${q.question}
 </div>
 
 ${optionsHTML}
@@ -309,7 +268,6 @@ ${optionsHTML}
 </div>
 
 </div>
-
 `;
 
 });
@@ -330,20 +288,15 @@ if(selected && selected.value === q.answer){
 
 score++;
 
-answerBox.innerHTML =
-`✓ Correct`;
-
-answerBox.className =
-"answer correct";
+answerBox.innerHTML = "✓ Correct";
+answerBox.className = "answer correct";
 
 }else{
 
 answerBox.innerHTML =
 `✗ Correct answer: ${q.answer}`;
 
-answerBox.className =
-"answer wrong";
-
+answerBox.className = "answer wrong";
 }
 
 answerBox.style.display = "block";
@@ -351,7 +304,7 @@ answerBox.style.display = "block";
 });
 
 const percent =
-Math.round(score/questions.length*100);
+Math.round((score / questions.length) * 100);
 
 document.getElementById("score").innerHTML =
 `${score} / ${questions.length}`;
@@ -368,7 +321,7 @@ else if(percent >= 50){
 message = "📘 Keep Practicing!";
 }
 else{
-message = "📚 Study Some & Any Again!";
+message = "📚 Study Some and Any Again!";
 }
 
 document.getElementById("message").innerHTML =
